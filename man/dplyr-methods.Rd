@@ -25,6 +25,7 @@
 \alias{count}
 \alias{add_count}
 \alias{pull}
+\alias{relocate}
 \title{Arrange rows by column values}
 \arguments{
 \item{.by_group}{If TRUE, will sort first by grouping variable. Applies to grouped data frames only.}
@@ -41,8 +42,6 @@ is recalculated based on the resulting data, otherwise it is kept as is.}
   This argument was previously called `add`, but that prevented
   creating a new grouping variable called `add`, and conflicts with
   our naming conventions.}
-
-\item{.data}{Input data frame.}
 
 \item{y}{tbls to join. (See dplyr)}
 
@@ -89,7 +88,16 @@ lazy data frame (e.g. from dbplyr or dtplyr).}
 \item{name}{An optional parameter that specifies the column to be used
 as names for a named vector. Specified in a similar manner as \code{var}.}
 
-\item{...}{For use by methods.}
+\item{.data}{A data frame, data frame extension (e.g. a tibble), or a
+lazy data frame (e.g. from dbplyr or dtplyr). See *Methods*, below, for
+more details.}
+
+\item{...}{<[`tidy-eval`][dplyr_eval]> Variables, or functions or
+variables. Use desc() to sort a variable in descending order.}
+
+\item{.before, .after}{<[`tidy-select`][dplyr_tidy_select]> Destination of
+columns selected by `...`. Supplying neither will move columns to the
+left-hand side; specifying both is an error.}
 }
 \value{
 An object of the same type as `.data`.
@@ -175,6 +183,8 @@ An object of the same type as `.data`. `count()` and `add_count()`
 group transiently, so the output has the same groups as the input.
 
 A vector the same size as `.data`.
+
+An object of the same type as `.data`.
 }
 \description{
 `arrange()` order the rows of a data frame rows by the values of selected
@@ -425,6 +435,8 @@ pbmc_small \%>\%
 data("pbmc_small")
 pbmc_small \%>\%  pull(groups)
 
+`\%>\%` = magrittr::`\%>\%`
+pbmc_small \%>\% relocate(groups)
 }
 \concept{grouping functions}
 \concept{single table verbs}
